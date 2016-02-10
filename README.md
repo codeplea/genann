@@ -33,6 +33,9 @@ ask it to predict on a test data point, and then free it:
 ```C
 #include "genann.h"
 
+/* Not shown, loading your training and test data. */
+double **training_data_input, **training_data_output, **test_data_input;
+
 /* New network with 5 inputs,
  * 2 hidden layer of 10 neurons each,
  * and 1 output. */
@@ -86,7 +89,7 @@ backpropogation.
 
 A primary design goal of GENANN was to store all the network weights in one
 contigious block of memory. This makes it easy and efficient to train the
-network weights directly using direct-search numeric optimizion algorthims,
+network weights using direct-search numeric optimizion algorthims,
 such as [Hill Climbing](https://en.wikipedia.org/wiki/Hill_climbing),
 [the Genetic Algorithm](https://en.wikipedia.org/wiki/Genetic_algorithm), [Simulated
 Annealing](https://en.wikipedia.org/wiki/Simulated_annealing), etc.
