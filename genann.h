@@ -29,6 +29,9 @@
 
 #include <stdio.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef GENANN_RANDOM
 /* We use the following for uniform random numbers between 0 and 1.
@@ -99,5 +102,8 @@ double genann_act_sigmoid_cached(double a);
 double genann_act_threshold(double a);
 
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*__GENANN_H__*/
