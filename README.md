@@ -79,7 +79,8 @@ Call `genann_free()` when you're finished with an ANN returned by `genann_init()
 
 ###Training ANNs
 ```C
-void genann_train(GENANN const *ann, double const *inputs, double const *desired_outputs, double learning_rate);
+void genann_train(GENANN const *ann, double const *inputs,
+        double const *desired_outputs, double learning_rate);
 ```
 
 `genann_train()` will preform one update using standard backpropogation. It
@@ -117,6 +118,12 @@ double const *genann_run(GENANN const *ann, double const *inputs);
 Call `genann_run()` on a trained ANN to run a feed-forward pass on a given set of inputs. `genann_run()`
 will provide a pointer to the array of predicted outputs (of `ann->outputs` length).
 
+
+##Hints
+
+- All functions start with `genann_`.
+- The code is simple. Dig in and change things.
+
 ##Extra Resources
 
 The [comp.ai.neural-nets
@@ -128,9 +135,3 @@ I highly recommend the [FANN library](http://leenissen.dk/fann/wp/). Another
 good library is Peter van Rossum's [Lightweight Neural
 Network](http://lwneuralnet.sourceforge.net/), which despite its name, is
 heavier and has more features than GENANN.
-
-##Hints
-
-- All functions start with `genann_`.
-- The code is simple. Dig in and change things.
-
