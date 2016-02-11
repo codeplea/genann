@@ -32,7 +32,7 @@
 
 
 void basic() {
-    GENANN *ann = genann_init(1, 0, 0, 1);
+    genann *ann = genann_init(1, 0, 0, 1);
 
     lequal(ann->total_weights, 2);
     double a;
@@ -67,7 +67,7 @@ void basic() {
 
 
 void xor() {
-    GENANN *ann = genann_init(2, 1, 2, 1);
+    genann *ann = genann_init(2, 1, 2, 1);
     ann->activation_hidden = genann_act_threshold;
     ann->activation_output = genann_act_threshold;
 
@@ -102,7 +102,7 @@ void xor() {
 
 
 void backprop() {
-    GENANN *ann = genann_init(1, 0, 0, 1);
+    genann *ann = genann_init(1, 0, 0, 1);
 
     double input, output;
     input = .5;
@@ -121,7 +121,7 @@ void train_and() {
     double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
     double output[4] = {0, 0, 0, 1};
 
-    GENANN *ann = genann_init(2, 0, 0, 1);
+    genann *ann = genann_init(2, 0, 0, 1);
 
     int i, j;
 
@@ -145,7 +145,7 @@ void train_or() {
     double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
     double output[4] = {0, 1, 1, 1};
 
-    GENANN *ann = genann_init(2, 0, 0, 1);
+    genann *ann = genann_init(2, 0, 0, 1);
     genann_randomize(ann);
 
     int i, j;
@@ -171,7 +171,7 @@ void train_xor() {
     double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
     double output[4] = {0, 1, 1, 0};
 
-    GENANN *ann = genann_init(2, 1, 2, 1);
+    genann *ann = genann_init(2, 1, 2, 1);
 
     int i, j;
 
@@ -194,7 +194,7 @@ void train_xor() {
 
 
 void persist() {
-    GENANN *first = genann_init(1000, 5, 50, 10);
+    genann *first = genann_init(1000, 5, 50, 10);
 
     FILE *out = fopen("persist.txt", "w");
     genann_write(first, out);
@@ -202,7 +202,7 @@ void persist() {
 
 
     FILE *in = fopen("persist.txt", "r");
-    GENANN *second = genann_read(in);
+    genann *second = genann_read(in);
     fclose(out);
 
     lequal(first->inputs, second->inputs);
@@ -222,9 +222,9 @@ void persist() {
 
 
 void copy() {
-    GENANN *first = genann_init(1000, 5, 50, 10);
+    genann *first = genann_init(1000, 5, 50, 10);
 
-    GENANN *second = genann_copy(first);
+    genann *second = genann_copy(first);
 
     lequal(first->inputs, second->inputs);
     lequal(first->hidden_layers, second->hidden_layers);

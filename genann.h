@@ -40,18 +40,18 @@ extern "C" {
 #endif
 
 
-typedef double (*GENANN_ACTFUN)(double a);
+typedef double (*genann_actfun)(double a);
 
 
-typedef struct GENANN {
+typedef struct genann {
     /* How many inputs, outputs, and hidden neurons. */
     int inputs, hidden_layers, hidden, outputs;
 
     /* Which activation function to use for hidden neurons. Default: gennann_act_sigmoid_cached*/
-    GENANN_ACTFUN activation_hidden;
+    genann_actfun activation_hidden;
 
     /* Which activation function to use for output. Default: gennann_act_sigmoid_cached*/
-    GENANN_ACTFUN activation_output;
+    genann_actfun activation_output;
 
     /* Total number of weights, and size of weights buffer. */
     int total_weights;
@@ -68,33 +68,33 @@ typedef struct GENANN {
     /* Stores delta of each hidden and output neuron (total_neurons - inputs long). */
     double *delta;
 
-} GENANN;
+} genann;
 
 
 
 /* Creates and returns a new ann. */
-GENANN *genann_init(int inputs, int hidden_layers, int hidden, int outputs);
+genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs);
 
 /* Creates ANN from file saved with genann_write. */
-GENANN *genann_read(FILE *in);
+genann *genann_read(FILE *in);
 
 /* Sets weights randomly. Called by init. */
-void genann_randomize(GENANN *ann);
+void genann_randomize(genann *ann);
 
 /* Returns a new copy of ann. */
-GENANN *genann_copy(GENANN const *ann);
+genann *genann_copy(genann const *ann);
 
 /* Frees the memory used by an ann. */
-void genann_free(GENANN *ann);
+void genann_free(genann *ann);
 
 /* Runs the feedforward algorithm to calculate the ann's output. */
-double const *genann_run(GENANN const *ann, double const *inputs);
+double const *genann_run(genann const *ann, double const *inputs);
 
 /* Does a single backprop update. */
-void genann_train(GENANN const *ann, double const *inputs, double const *desired_outputs, double learning_rate);
+void genann_train(genann const *ann, double const *inputs, double const *desired_outputs, double learning_rate);
 
 /* Saves the ann. */
-void genann_write(GENANN const *ann, FILE *out);
+void genann_write(genann const *ann, FILE *out);
 
 
 double genann_act_sigmoid(double a);

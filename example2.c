@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     /* New network with 2 inputs,
      * 1 hidden layer of 2 neurons,
      * and 1 output. */
-    GENANN *ann = genann_init(2, 1, 2, 1);
+    genann *ann = genann_init(2, 1, 2, 1);
 
     double err;
     double last_err = 1000;
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
             genann_randomize(ann);
         }
 
-        GENANN *save = genann_copy(ann);
+        genann *save = genann_copy(ann);
 
         /* Take a random guess at the ANN weights. */
         for (i = 0; i < ann->total_weights; ++i) {

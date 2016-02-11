@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    GENANN *ann = genann_read(saved);
+    genann *ann = genann_read(saved);
     fclose(saved);
 
     if (!ann) {
