@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     fclose(saved);
 
     if (!ann) {
-        printf("Error loading ANN from file.", save_name);
+        printf("Error loading ANN from file: %s.", save_name);
         exit(1);
     }
 
