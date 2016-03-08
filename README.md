@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/codeplea/genann.svg?branch=master)](https://travis-ci.org/codeplea/genann)
+
 #Genann
 
 Genann is a very minimal library for training and using feedforward artificial neural
