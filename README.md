@@ -23,10 +23,10 @@ necessary functions and little extra.
 
 Four example programs are included with the source code.
 
-- `example1.c` - Trains an ANN on the XOR function using backpropagation.
-- `example2.c` - Trains an ANN on the XOR function using random search.
-- `example3.c` - Loads and runs an ANN from a file.
-- `example4.c` - Trains an ANN on the [IRIS data-set](https://archive.ics.uci.edu/ml/datasets/Iris) using backpropagation.
+- [`example1.c`](./example1.c) - Trains an ANN on the XOR function using backpropagation.
+- [`example2.c`](./example2.c) - Trains an ANN on the XOR function using random search.
+- [`example3.c`](./example3.c) - Loads and runs an ANN from a file.
+- [`example4.c`](./example4.c) - Trains an ANN on the [IRIS data-set](https://archive.ics.uci.edu/ml/datasets/Iris) using backpropagation.
 
 ##Quick Example
 
