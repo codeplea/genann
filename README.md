@@ -2,10 +2,10 @@
 
 #Genann
 
-Genann is a minimal, but well tested and documented, library for training and
-using feedforward artificial neural networks (ANN) in C. Its primary focus is
-on being simple, fast, reliable, and hackable. It achieves this by providing only the
-necessary functions and little extra.
+Genann is a minimal, well-tested library for training and using feedforward
+artificial neural networks (ANN) in C. Its primary focus is on being simple,
+fast, reliable, and hackable. It achieves this by providing only the necessary
+functions and little extra.
 
 ##Features
 
