@@ -2,9 +2,10 @@
 
 #Genann
 
-Genann is a very minimal library for training and using feedforward artificial neural
-networks (ANN) in C. Its primary focus is on being simple, fast, and hackable. It achieves
-this by providing only the necessary functions and little extra.
+Genann is a minimal, but well tested and documented, library for training and
+using feedforward artificial neural networks (ANN) in C. Its primary focus is
+on being simple, fast, reliable, and hackable. It achieves this by providing only the
+necessary functions and little extra.
 
 ##Features
 
@@ -14,13 +15,13 @@ this by providing only the necessary functions and little extra.
 - Fast and thread-safe.
 - Easily extendible.
 - Implements backpropagation training.
-- Compatible with training by alternative methods (classic optimization, genetic algorithms, etc)
+- *Compatible with alternative training methods* (classic optimization, genetic algorithms, etc)
 - Includes examples and test suite.
 - Released under the zlib license - free for nearly any use.
 
 ##Example Code
 
-Four example programs are included.
+Four example programs are included with the source code.
 
 - `example1.c` - Trains an ANN on the XOR function using backpropagation.
 - `example2.c` - Trains an ANN on the XOR function using random search.
@@ -29,8 +30,13 @@ Four example programs are included.
 
 ##Quick Example
 
-Here we create an ANN, train it on a set of labeled data using backpropagation,
-ask it to predict on a test data point, and then free it:
+We create an ANN taking 2 inputs, having 1 layer of 3 hidden neurons, and
+providing 2 outputs. It has the following structure:
+
+![NN Example Structure](./doc/e1.png)
+
+We then train it on a set of labeled data using backpropagation and ask it to
+predict on a test data point:
 
 ```C
 #include "genann.h"
@@ -38,10 +44,10 @@ ask it to predict on a test data point, and then free it:
 /* Not shown, loading your training and test data. */
 double **training_data_input, **training_data_output, **test_data_input;
 
-/* New network with 5 inputs,
- * 2 hidden layer of 10 neurons each,
- * and 1 output. */
-genann *ann = genann_init(5, 2, 10, 1);
+/* New network with 2 inputs,
+ * 1 hidden layer of 3 neurons each,
+ * and 2 outputs. */
+genann *ann = genann_init(2, 1, 3, 2);
 
 /* Learn on the training set. */
 for (i = 0; i < 300; ++i) {
@@ -50,7 +56,8 @@ for (i = 0; i < 300; ++i) {
 }
 
 /* Run the network and see what it predicts. */
-printf("Output for the first test data point is: %f\n", *genann_run(ann, test_data_input[0]));
+double const *prediction = genann_run(ann, test_data_input[0]);
+printf("Output for the first test data point is: %f, %f\n", prediction[0], prediction[1]);
 
 genann_free(ann);
 ```
@@ -86,7 +93,7 @@ void genann_train(genann const *ann, double const *inputs,
 ```
 
 `genann_train()` will preform one update using standard backpropogation. It
-should be called by passing in an array of inputs, an array of expected output,
+should be called by passing in an array of inputs, an array of expected outputs,
 and a learning rate. See *example1.c* for an example of learning with
 backpropogation.
 
@@ -133,7 +140,7 @@ FAQ](http://www.faqs.org/faqs/ai-faq/neural-nets/part1/) is an excellent
 resource for an introduction to artificial neural networks.
 
 If you're looking for a heavier, more opinionated neural network library in C,
-I highly recommend the [FANN library](http://leenissen.dk/fann/wp/). Another
+I recommend the [FANN library](http://leenissen.dk/fann/wp/). Another
 good library is Peter van Rossum's [Lightweight Neural
 Network](http://lwneuralnet.sourceforge.net/), which despite its name, is
 heavier and has more features than Genann.

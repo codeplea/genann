@@ -1,0 +1,9 @@
+digraph G {
+    rankdir=LR;
+
+    {i1 i2} -> {h1 h2 h3} -> {o1 o2};
+    i1, i2, h1, h2, h3, o1, o2 [shape=circle; label="";];
+
+    input -> hidden -> output [style=invis;];
+    input, hidden, output [shape=plaintext;];
+}
