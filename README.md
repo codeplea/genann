@@ -62,10 +62,10 @@ printf("Output for the first test data point is: %f, %f\n", prediction[0], predi
 genann_free(ann);
 ```
 
-Not that this example is to show API usage, it is not showing good machine
-learning techniques. In a real application you would likely want to learn on
-the test data in a random order. You would also want to monitor the learning to
-prevent over-fitting.
+This example is to show API usage, it is not showing good machine learning
+techniques. In a real application you would likely want to learn on the test
+data in a random order. You would also want to monitor the learning to prevent
+over-fitting.
 
 
 ##Usage
