@@ -100,6 +100,7 @@ void genann_write(genann const *ann, FILE *out);
 double genann_act_sigmoid(double a);
 double genann_act_sigmoid_cached(double a);
 double genann_act_threshold(double a);
+double genann_act_linear(double a);
 
 
 #ifdef __cplusplus

@@ -75,6 +75,11 @@ double genann_act_threshold(double a) {
 }
 
 
+double genann_act_linear(double a) {
+    return a;
+}
+
+
 genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs) {
     if (hidden_layers < 0) return 0;
     if (inputs < 1) return 0;
