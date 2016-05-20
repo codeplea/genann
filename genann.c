@@ -236,9 +236,15 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
 
 
         /* Set output layer deltas. */
-        for (j = 0; j < ann->outputs; ++j) {
-            *d = (*t - *o) * *o * (1.0 - *o);
-            ++o; ++d; ++t;
+        if (ann->activation_output == genann_act_linear) {
+            for (j = 0; j < ann->outputs; ++j) {
+                *d++ = *t++ - *o++;
+            }
+        } else {
+            for (j = 0; j < ann->outputs; ++j) {
+                *d++ = (*t - *o) * *o * (1.0 - *o);
+                ++o; ++t;
+            }
         }
     }
 
@@ -289,7 +295,7 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
                 ? (ann->inputs + (ann->hidden) * (ann->hidden_layers-1))
                 : 0);
 
-        /* Set output layer deltas. */
+        /* Set output layer weights. */
         for (j = 0; j < ann->outputs; ++j) {
             for (k = 0; k < (ann->hidden_layers ? ann->hidden : ann->inputs) + 1; ++k) {
                 if (k == 0) {
