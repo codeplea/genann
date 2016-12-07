@@ -21,6 +21,10 @@ functions and little extra.
 - Includes examples and test suite.
 - Released under the zlib license - free for nearly any use.
 
+##Building
+
+Genann is self-contained in two files: `genann.c` and `genann.h`. To use Genann, simply add those two files to your project.
+
 ##Example Code
 
 Four example programs are included with the source code.
