@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/codeplea/genann.svg?branch=master)](https://travis-ci.org/codeplea/genann)
 
+<img alt="Genann logo" src="https://codeplea.com/public/content/genann_logo.png" align="right" />
+
 #Genann
 
 Genann is a minimal, well-tested library for training and using feedforward
