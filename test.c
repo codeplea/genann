@@ -175,7 +175,7 @@ void train_xor() {
 
     int i, j;
 
-    for (i = 0; i < 300; ++i) {
+    for (i = 0; i < 500; ++i) {
         for (j = 0; j < 4; ++j) {
             genann_train(ann, input[j], output + j, 3);
         }
