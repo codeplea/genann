@@ -83,7 +83,7 @@ genann *genann_copy(genann const *ann);
 void genann_free(genann *ann);
 ```
 
-Creating a new ANN is done with the `genann_init()` function. It's arguments
+Creating a new ANN is done with the `genann_init()` function. Its arguments
 are the number of inputs, the number of hidden layers, the number of neurons in
 each hidden layer, and the number of outputs. It returns a `genann` struct pointer.
 
