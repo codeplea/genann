@@ -1,4 +1,4 @@
-CCFLAGS = -ansi -Wall -Wshadow -O2 -g
+CCFLAGS = -Wall -Wshadow -O2 -g
 LFLAGS = -lm
 
 
@@ -27,10 +27,11 @@ example4: example4.o genann.o
 
 
 clean:
-	rm *.o
-	rm persist.txt
-	rm example1
-	rm example2
-	rm example3
-	rm example4
-	rm test
+	rm persist.txt || echo
+	rm *.o         || echo
+	rm example1    || echo
+	rm example2    || echo
+	rm example3    || echo
+	rm example4    || echo
+	rm test        || echo
+	rm *.exe       || echo
