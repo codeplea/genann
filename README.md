@@ -2,14 +2,14 @@
 
 <img alt="Genann logo" src="https://codeplea.com/public/content/genann_logo.png" align="right" />
 
-#Genann
+# Genann
 
 Genann is a minimal, well-tested library for training and using feedforward
 artificial neural networks (ANN) in C. Its primary focus is on being simple,
 fast, reliable, and hackable. It achieves this by providing only the necessary
 functions and little extra.
 
-##Features
+## Features
 
 - **ANSI C with no dependencies**.
 - Contained in a single source code and header file.
@@ -21,11 +21,11 @@ functions and little extra.
 - Includes examples and test suite.
 - Released under the zlib license - free for nearly any use.
 
-##Building
+## Building
 
 Genann is self-contained in two files: `genann.c` and `genann.h`. To use Genann, simply add those two files to your project.
 
-##Example Code
+## Example Code
 
 Four example programs are included with the source code.
 
@@ -34,7 +34,7 @@ Four example programs are included with the source code.
 - [`example3.c`](./example3.c) - Loads and runs an ANN from a file.
 - [`example4.c`](./example4.c) - Trains an ANN on the [IRIS data-set](https://archive.ics.uci.edu/ml/datasets/Iris) using backpropagation.
 
-##Quick Example
+## Quick Example
 
 We create an ANN taking 2 inputs, having 1 layer of 3 hidden neurons, and
 providing 2 outputs. It has the following structure:
@@ -74,9 +74,9 @@ data in a random order. You would also want to monitor the learning to prevent
 over-fitting.
 
 
-##Usage
+## Usage
 
-###Creating and Freeing ANNs
+### Creating and Freeing ANNs
 ```C
 genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs);
 genann *genann_copy(genann const *ann);
@@ -92,7 +92,7 @@ Calling `genann_copy()` will create a deep-copy of an existing `genann` struct.
 Call `genann_free()` when you're finished with an ANN returned by `genann_init()`.
 
 
-###Training ANNs
+### Training ANNs
 ```C
 void genann_train(genann const *ann, double const *inputs,
         double const *desired_outputs, double learning_rate);
@@ -115,16 +115,16 @@ Every `genann` struct contains the members `int total_weights;` and
 size which contains all weights used by the ANN. See *example2.c* for
 an example of training using random hill climbing search.
 
-###Saving and Loading ANNs
+### Saving and Loading ANNs
 
 ```C
 genann *genann_read(FILE *in);
 void genann_write(genann const *ann, FILE *out);
 ```
-
+ 
 Genann provides the `genann_read()` and `genann_write()` functions for loading or saving an ANN in a text-based format.
 
-###Evaluating
+### Evaluating
 
 ```C
 double const *genann_run(genann const *ann, double const *inputs);
@@ -134,12 +134,12 @@ Call `genann_run()` on a trained ANN to run a feed-forward pass on a given set o
 will provide a pointer to the array of predicted outputs (of `ann->outputs` length).
 
 
-##Hints
+## Hints
 
 - All functions start with `genann_`.
 - The code is simple. Dig in and change things.
 
-##Extra Resources
+## Extra Resources
 
 The [comp.ai.neural-nets
 FAQ](http://www.faqs.org/faqs/ai-faq/neural-nets/part1/) is an excellent
