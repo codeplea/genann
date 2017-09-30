@@ -34,7 +34,9 @@ cmake -DWITH_EXAMPLES=ON .. && make
 ```
 
 It is also possible to build a Debian package using:
+```Shell
 make package
+```
 
 ## Example Code
 
