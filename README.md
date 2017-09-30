@@ -25,6 +25,17 @@ functions and little extra.
 
 Genann is self-contained in two files: `genann.c` and `genann.h`. To use Genann, simply add those two files to your project.
 
+Genann now also can be built as shared library using cmake. You can simply build it with:
+
+```Shell
+mkdir build
+cd build
+cmake -DWITH_EXAMPLES=ON .. && make
+```
+
+It is also possible to build a Debian package using:
+make package
+
 ## Example Code
 
 Four example programs are included with the source code.

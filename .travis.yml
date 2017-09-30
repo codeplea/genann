@@ -4,4 +4,10 @@ compiler:
   - clang
   - gcc
 
+addons:
+  apt:
+    packages:
+      - cmake
+
 script: make
+script: mkdir build && cd build && cmake -DWITH_EXAMPLES=ON .. && make
