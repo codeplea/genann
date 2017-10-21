@@ -27,6 +27,6 @@ example4: example4.o genann.o
 
 
 clean:
-	rm *.o
-	rm *.exe
-	rm persist.txt
+	$(RM) *.o
+	$(RM) *.exe
+	$(RM) persist.txt
