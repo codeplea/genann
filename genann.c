@@ -25,12 +25,12 @@
 
 #include "genann.h"
 
+#include <assert.h>
+#include <errno.h>
+#include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <assert.h>
-#include <stdio.h>
-#include <errno.h>
 
 #define LOOKUP_SIZE 4096
 
