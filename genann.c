@@ -25,11 +25,12 @@
 
 #include "genann.h"
 
+#include <assert.h>
+#include <errno.h>
+#include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <assert.h>
-#include <stdio.h>
 
 #define LOOKUP_SIZE 4096
 
@@ -122,13 +123,27 @@ genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs) {
 
 genann *genann_read(FILE *in) {
     int inputs, hidden_layers, hidden, outputs;
-    fscanf(in, "%d %d %d %d", &inputs, &hidden_layers, &hidden, &outputs);
+    int rc;
+
+    errno = 0;
+    rc = fscanf(in, "%d %d %d %d", &inputs, &hidden_layers, &hidden, &outputs);
+    if (rc < 4 || errno != 0) {
+        perror("fscanf");
+        return NULL;
+    }
 
     genann *ann = genann_init(inputs, hidden_layers, hidden, outputs);
 
     int i;
     for (i = 0; i < ann->total_weights; ++i) {
-        fscanf(in, " %le", ann->weight + i);
+        errno = 0;
+        rc = fscanf(in, " %le", ann->weight + i);
+        if (rc < 1 || errno != 0) {
+            perror("fscanf");
+            genann_free(ann);
+
+            return NULL;
+        }
     }
 
     return ann;

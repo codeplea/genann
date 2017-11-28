@@ -42,7 +42,10 @@ void load_data() {
         double *c = class + i * 3;
         c[0] = c[1] = c[2] = 0.0;
 
-        fgets(line, 1024, in);
+        if (fgets(line, 1024, in) == NULL) {
+            perror("fgets");
+            exit(1);
+        }
 
         char *split = strtok(line, ",");
         for (j = 0; j < 4; ++j) {
