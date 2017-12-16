@@ -54,20 +54,27 @@ double genann_act_sigmoid_cached(double a) {
 
     /* Calculate entire lookup table on first run. */
     if (!initialized) {
-        interval = (max - min) / LOOKUP_SIZE;
+        const double f = (max - min) / LOOKUP_SIZE;
         int i;
+        interval = LOOKUP_SIZE / (max - min);
         for (i = 0; i < LOOKUP_SIZE; ++i) {
-            lookup[i] = genann_act_sigmoid(min + interval * i);
+            lookup[i] = genann_act_sigmoid(min + f * i);
         }
         /* This is down here to make this thread safe. */
         initialized = 1;
     }
 
-    int i;
-    i = (int)((a-min)/interval+0.5);
-    if (i <= 0) return lookup[0];
-    if (i >= LOOKUP_SIZE) return lookup[LOOKUP_SIZE-1];
-    return lookup[i];
+    assert(!isnan(a));
+
+    if (a < min) return lookup[0];
+    if (a >= max) return lookup[LOOKUP_SIZE - 1];
+
+    size_t j = (size_t)((a-min)*interval+0.5);
+
+    if (j < 0) return lookup[0];
+    if (j >= LOOKUP_SIZE) return lookup[LOOKUP_SIZE - 1];
+
+    return lookup[j];
 }
 
 
