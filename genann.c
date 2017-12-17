@@ -203,18 +203,41 @@ double const *genann_run(genann const *ann, double const *inputs) {
     const genann_actfun act = ann->activation_hidden;
     const genann_actfun acto = ann->activation_output;
 
+    if (!ann->hidden_layers) {
+        double *ret = o;
+        for (j = 0; j < ann->outputs; ++j) {
+            double sum = *w++ * -1.0;
+            for (k = 0; k < ann->inputs; ++k) {
+                sum += *w++ * i[k];
+            }
+            *o++ = acto(sum);
+        }
+
+        return ret;
+    }
+
+    /* Figure input layer */
+    for (j = 0; j < ann->hidden; ++j) {
+        double sum = *w++ * -1.0;
+        for (k = 0; k < ann->inputs; ++k) {
+            sum += *w++ * i[k];
+        }
+        *o++ = act(sum);
+    }
+
+    i += ann->inputs;
+
     /* Figure hidden layers, if any. */
-    for (h = 0; h < ann->hidden_layers; ++h) {
+    for (h = 1; h < ann->hidden_layers; ++h) {
         for (j = 0; j < ann->hidden; ++j) {
             double sum = *w++ * -1.0;
-            for (k = 0; k < (h == 0 ? ann->inputs : ann->hidden); ++k) {
+            for (k = 0; k < ann->hidden; ++k) {
                 sum += *w++ * i[k];
             }
             *o++ = act(sum);
         }
 
-
-        i += (h == 0 ? ann->inputs : ann->hidden);
+        i += ann->hidden;
     }
 
     double const *ret = o;
@@ -222,7 +245,7 @@ double const *genann_run(genann const *ann, double const *inputs) {
     /* Figure output layer. */
     for (j = 0; j < ann->outputs; ++j) {
         double sum = *w++ * -1.0;
-        for (k = 0; k < (ann->hidden_layers ? ann->hidden : ann->inputs); ++k) {
+        for (k = 0; k < ann->hidden; ++k) {
             sum += *w++ * i[k];
         }
         *o++ = acto(sum);
