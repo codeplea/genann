@@ -344,12 +344,9 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
 
         /* Set output layer weights. */
         for (j = 0; j < ann->outputs; ++j) {
-            for (k = 0; k < (ann->hidden_layers ? ann->hidden : ann->inputs) + 1; ++k) {
-                if (k == 0) {
-                    *w++ += *d * learning_rate * -1.0;
-                } else {
-                    *w++ += *d * learning_rate * i[k-1];
-                }
+            *w++ += *d * learning_rate * -1.0;
+            for (k = 1; k < (ann->hidden_layers ? ann->hidden : ann->inputs) + 1; ++k) {
+                *w++ += *d * learning_rate * i[k-1];
             }
 
             ++d;
@@ -377,12 +374,9 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
 
 
         for (j = 0; j < ann->hidden; ++j) {
-            for (k = 0; k < (h == 0 ? ann->inputs : ann->hidden) + 1; ++k) {
-                if (k == 0) {
-                    *w++ += *d * learning_rate * -1.0;
-                } else {
-                    *w++ += *d * learning_rate * i[k-1];
-                }
+            *w++ += *d * learning_rate * -1.0;
+            for (k = 1; k < (h == 0 ? ann->inputs : ann->hidden) + 1; ++k) {
+                *w++ += *d * learning_rate * i[k-1];
             }
             ++d;
         }
