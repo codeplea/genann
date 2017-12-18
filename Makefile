@@ -1,4 +1,4 @@
-CCFLAGS = -Wall -Wshadow -O2 -g
+CFLAGS = -Wall -Wshadow -O2 -g
 LDLIBS = -lm
 
 
