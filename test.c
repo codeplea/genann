@@ -248,7 +248,7 @@ void sigmoid() {
     const double d = .0001;
 
     while (i < max) {
-        lfequal(genann_act_sigmoid(i), genann_act_sigmoid_cached(i));
+        lfequal(genann_act_sigmoid(NULL, i), genann_act_sigmoid_cached(NULL, i));
         i += d;
     }
 }

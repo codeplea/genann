@@ -32,61 +32,71 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef genann_act
+#define genann_act_hidden genann_act_hidden_indirect
+#define genann_act_output genann_act_output_indirect
+#else
+#define genann_act_hidden genann_act
+#define genann_act_output genann_act
+#endif
+
 #define LOOKUP_SIZE 4096
 
-double genann_act_sigmoid(double a) {
+double genann_act_hidden_indirect(const struct genann *ann, double a) {
+    return ann->activation_hidden(ann, a);
+}
+
+double genann_act_output_indirect(const struct genann *ann, double a) {
+    return ann->activation_output(ann, a);
+}
+
+const double sigmoid_dom_min = -15.0;
+const double sigmoid_dom_max = 15.0;
+double interval;
+double lookup[LOOKUP_SIZE];
+
+#define likely(x)       __builtin_expect(!!(x), 1)
+#define unlikely(x)     __builtin_expect(!!(x), 0)
+#define __unused        __attribute__((unused))
+
+double inline genann_act_sigmoid(const genann *ann __unused, double a) {
     if (a < -45.0) return 0;
     if (a > 45.0) return 1;
     return 1.0 / (1 + exp(-a));
 }
 
-
-double genann_act_sigmoid_cached(double a) {
-    /* If you're optimizing for memory usage, just
-     * delete this entire function and replace references
-     * of genann_act_sigmoid_cached to genann_act_sigmoid
-     */
-    const double min = -15.0;
-    const double max = 15.0;
-    static double interval;
-    static int initialized = 0;
-    static double lookup[LOOKUP_SIZE];
-
-    /* Calculate entire lookup table on first run. */
-    if (!initialized) {
-        const double f = (max - min) / LOOKUP_SIZE;
+void genann_init_sigmoid_lookup(const genann *ann) {
+        const double f = (sigmoid_dom_max - sigmoid_dom_min) / LOOKUP_SIZE;
         int i;
-        interval = LOOKUP_SIZE / (max - min);
-        for (i = 0; i < LOOKUP_SIZE; ++i) {
-            lookup[i] = genann_act_sigmoid(min + f * i);
-        }
-        /* This is down here to make this thread safe. */
-        initialized = 1;
-    }
 
+        interval = LOOKUP_SIZE / (sigmoid_dom_max - sigmoid_dom_min);
+        for (i = 0; i < LOOKUP_SIZE; ++i) {
+            lookup[i] = genann_act_sigmoid(ann, sigmoid_dom_min + f * i);
+        }
+}
+
+double inline genann_act_sigmoid_cached(const genann *ann __unused, double a) {
     assert(!isnan(a));
 
-    if (a < min) return lookup[0];
-    if (a >= max) return lookup[LOOKUP_SIZE - 1];
+    if (a < sigmoid_dom_min) return lookup[0];
+    if (a >= sigmoid_dom_max) return lookup[LOOKUP_SIZE - 1];
 
-    size_t j = (size_t)((a-min)*interval+0.5);
+    size_t j = (size_t)((a-sigmoid_dom_min)*interval+0.5);
 
-    if (j < 0) return lookup[0];
-    if (j >= LOOKUP_SIZE) return lookup[LOOKUP_SIZE - 1];
+    /* Because floating point... */
+    if (unlikely(j < 0)) return lookup[0];
+    if (unlikely(j >= LOOKUP_SIZE)) return lookup[LOOKUP_SIZE - 1];
 
     return lookup[j];
 }
 
-
-double genann_act_threshold(double a) {
-    return a > 0;
-}
-
-
-double genann_act_linear(double a) {
+double inline genann_act_linear(const struct genann *ann __unused, double a) {
     return a;
 }
 
+double inline genann_act_threshold(const struct genann *ann __unused, double a) {
+    return a > 0;
+}
 
 genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs) {
     if (hidden_layers < 0) return 0;
@@ -123,6 +133,8 @@ genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs) {
 
     ret->activation_hidden = genann_act_sigmoid_cached;
     ret->activation_output = genann_act_sigmoid_cached;
+
+    genann_init_sigmoid_lookup(ret);
 
     return ret;
 }
@@ -200,9 +212,6 @@ double const *genann_run(genann const *ann, double const *inputs) {
 
     int h, j, k;
 
-    const genann_actfun act = ann->activation_hidden;
-    const genann_actfun acto = ann->activation_output;
-
     if (!ann->hidden_layers) {
         double *ret = o;
         for (j = 0; j < ann->outputs; ++j) {
@@ -210,7 +219,7 @@ double const *genann_run(genann const *ann, double const *inputs) {
             for (k = 0; k < ann->inputs; ++k) {
                 sum += *w++ * i[k];
             }
-            *o++ = acto(sum);
+            *o++ = genann_act_output(ann, sum);
         }
 
         return ret;
@@ -222,7 +231,7 @@ double const *genann_run(genann const *ann, double const *inputs) {
         for (k = 0; k < ann->inputs; ++k) {
             sum += *w++ * i[k];
         }
-        *o++ = act(sum);
+        *o++ = genann_act_hidden(ann, sum);
     }
 
     i += ann->inputs;
@@ -234,7 +243,7 @@ double const *genann_run(genann const *ann, double const *inputs) {
             for (k = 0; k < ann->hidden; ++k) {
                 sum += *w++ * i[k];
             }
-            *o++ = act(sum);
+            *o++ = genann_act_hidden(ann, sum);
         }
 
         i += ann->hidden;
@@ -248,7 +257,7 @@ double const *genann_run(genann const *ann, double const *inputs) {
         for (k = 0; k < ann->hidden; ++k) {
             sum += *w++ * i[k];
         }
-        *o++ = acto(sum);
+        *o++ = genann_act_output(ann, sum);
     }
 
     /* Sanity check that we used all weights and wrote all outputs. */
@@ -273,7 +282,8 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
 
 
         /* Set output layer deltas. */
-        if (ann->activation_output == genann_act_linear) {
+        if (genann_act_output == genann_act_linear ||
+                ann->activation_output == genann_act_linear) {
             for (j = 0; j < ann->outputs; ++j) {
                 *d++ = *t++ - *o++;
             }
