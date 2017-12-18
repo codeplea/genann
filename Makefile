@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wshadow -O2 -g
+CFLAGS = -Wall -Wshadow -O3 -g -march=native
 LDLIBS = -lm
 
 all: test example1 example2 example3 example4
