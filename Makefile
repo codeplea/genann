@@ -1,9 +1,7 @@
 CFLAGS = -Wall -Wshadow -O2 -g
 LDLIBS = -lm
 
-
 all: test example1 example2 example3 example4
-
 
 test: test.o genann.o
 
@@ -21,5 +19,5 @@ example4: example4.o genann.o
 
 clean:
 	$(RM) *.o
-	$(RM) *.exe
+	$(RM) test example1 example2 example3 example4 *.exe
 	$(RM) persist.txt
