@@ -39,9 +39,9 @@ extern "C" {
 #define GENANN_RANDOM() (((double)rand())/RAND_MAX)
 #endif
 
+struct genann;
 
-typedef double (*genann_actfun)(double a);
-
+typedef double (*genann_actfun)(const struct genann *ann, double a);
 
 typedef struct genann {
     /* How many inputs, outputs, and hidden neurons. */
@@ -70,8 +70,6 @@ typedef struct genann {
 
 } genann;
 
-
-
 /* Creates and returns a new ann. */
 genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs);
 
@@ -96,11 +94,11 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
 /* Saves the ann. */
 void genann_write(genann const *ann, FILE *out);
 
-
-double genann_act_sigmoid(double a);
-double genann_act_sigmoid_cached(double a);
-double genann_act_threshold(double a);
-double genann_act_linear(double a);
+void genann_init_sigmoid_lookup(const genann *ann);
+double genann_act_sigmoid(const genann *ann, double a);
+double genann_act_sigmoid_cached(const genann *ann, double a);
+double genann_act_threshold(const genann *ann, double a);
+double genann_act_linear(const genann *ann, double a);
 
 
 #ifdef __cplusplus
