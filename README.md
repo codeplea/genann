@@ -145,6 +145,8 @@ The [comp.ai.neural-nets
 FAQ](http://www.faqs.org/faqs/ai-faq/neural-nets/part1/) is an excellent
 resource for an introduction to artificial neural networks.
 
+If you need an even smaller neural network library, check out the excellent single-hidden-layer library [tinn](https://github.com/glouw/tinn).
+
 If you're looking for a heavier, more opinionated neural network library in C,
 I recommend the [FANN library](http://leenissen.dk/fann/wp/). Another
 good library is Peter van Rossum's [Lightweight Neural
