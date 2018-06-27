@@ -35,32 +35,32 @@ void basic() {
     genann *ann = genann_init(1, 0, 0, 1);
 
     lequal(ann->total_weights, 2);
-    double a;
+    real_t a;
 
 
     a = 0;
     ann->weight[0] = 0;
     ann->weight[1] = 0;
-    lfequal(0.5, *genann_run(ann, &a));
+    lfequal(REAL_T_LITERAL(0.5), *genann_run(ann, &a));
 
     a = 1;
-    lfequal(0.5, *genann_run(ann, &a));
+    lfequal(REAL_T_LITERAL(0.5), *genann_run(ann, &a));
 
     a = 11;
-    lfequal(0.5, *genann_run(ann, &a));
+    lfequal(REAL_T_LITERAL(0.5), *genann_run(ann, &a));
 
     a = 1;
     ann->weight[0] = 1;
     ann->weight[1] = 1;
-    lfequal(0.5, *genann_run(ann, &a));
+    lfequal(REAL_T_LITERAL(0.5), *genann_run(ann, &a));
 
     a = 10;
     ann->weight[0] = 1;
     ann->weight[1] = 1;
-    lfequal(1.0, *genann_run(ann, &a));
+    lfequal(REAL_T_LITERAL(1.0), *genann_run(ann, &a));
 
     a = -10;
-    lfequal(0.0, *genann_run(ann, &a));
+    lfequal(REAL_T_LITERAL(0.0), *genann_run(ann, &a));
 
     genann_free(ann);
 }
@@ -74,7 +74,7 @@ void xor() {
     lequal(ann->total_weights, 9);
 
     /* First hidden. */
-    ann->weight[0] = .5;
+    ann->weight[0] = REAL_T_LITERAL(.5);
     ann->weight[1] = 1;
     ann->weight[2] = 1;
 
@@ -84,13 +84,13 @@ void xor() {
     ann->weight[5] = 1;
 
     /* Output. */
-    ann->weight[6] = .5;
+    ann->weight[6] = REAL_T_LITERAL(.5);
     ann->weight[7] = 1;
     ann->weight[8] = -1;
 
 
-    double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-    double output[4] = {0, 1, 1, 0};
+    real_t input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+    real_t output[4] = {0, 1, 1, 0};
 
     lfequal(output[0], *genann_run(ann, input[0]));
     lfequal(output[1], *genann_run(ann, input[1]));
@@ -104,13 +104,13 @@ void xor() {
 void backprop() {
     genann *ann = genann_init(1, 0, 0, 1);
 
-    double input, output;
-    input = .5;
+    real_t input, output;
+    input = REAL_T_LITERAL(.5);
     output = 1;
 
-    double first_try = *genann_run(ann, &input);
-    genann_train(ann, &input, &output, .5);
-    double second_try = *genann_run(ann, &input);
+    real_t first_try = *genann_run(ann, &input);
+    genann_train(ann, &input, &output, REAL_T_LITERAL(.5));
+    real_t second_try = *genann_run(ann, &input);
     lok(fabs(first_try - output) > fabs(second_try - output));
 
     genann_free(ann);
@@ -118,8 +118,8 @@ void backprop() {
 
 
 void train_and() {
-    double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-    double output[4] = {0, 0, 0, 1};
+    real_t input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+    real_t output[4] = {0, 0, 0, 1};
 
     genann *ann = genann_init(2, 0, 0, 1);
 
@@ -127,7 +127,7 @@ void train_and() {
 
     for (i = 0; i < 50; ++i) {
         for (j = 0; j < 4; ++j) {
-            genann_train(ann, input[j], output + j, .8);
+            genann_train(ann, input[j], output + j, REAL_T_LITERAL(.8));
         }
     }
 
@@ -142,8 +142,8 @@ void train_and() {
 
 
 void train_or() {
-    double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-    double output[4] = {0, 1, 1, 1};
+    real_t input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+    real_t output[4] = {0, 1, 1, 1};
 
     genann *ann = genann_init(2, 0, 0, 1);
     genann_randomize(ann);
@@ -152,7 +152,7 @@ void train_or() {
 
     for (i = 0; i < 50; ++i) {
         for (j = 0; j < 4; ++j) {
-            genann_train(ann, input[j], output + j, .8);
+            genann_train(ann, input[j], output + j, REAL_T_LITERAL(.8));
         }
     }
 
@@ -168,8 +168,8 @@ void train_or() {
 
 
 void train_xor() {
-    double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-    double output[4] = {0, 1, 1, 0};
+    real_t input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+    real_t output[4] = {0, 1, 1, 0};
 
     genann *ann = genann_init(2, 1, 2, 1);
 
@@ -243,9 +243,9 @@ void copy() {
 
 
 void sigmoid() {
-    double i = -20;
-    const double max = 20;
-    const double d = .0001;
+    real_t i = -20;
+    const real_t max = 20;
+    const real_t d = REAL_T_LITERAL(.0001);
 
     while (i < max) {
         lfequal(genann_act_sigmoid(NULL, i), genann_act_sigmoid_cached(NULL, i));

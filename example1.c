@@ -7,8 +7,8 @@ int main(int argc, char *argv[])
     printf("Train a small ANN to the XOR function using backpropagation.\n");
 
     /* Input and expected out data for the XOR function. */
-    const double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-    const double output[4] = {0, 1, 1, 0};
+    const real_t input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+    const real_t output[4] = {0, 1, 1, 0};
     int i;
 
     /* New network with 2 inputs,
@@ -25,10 +25,12 @@ int main(int argc, char *argv[])
     }
 
     /* Run the network and see what it predicts. */
-    printf("Output for [%1.f, %1.f] is %1.f.\n", input[0][0], input[0][1], *genann_run(ann, input[0]));
-    printf("Output for [%1.f, %1.f] is %1.f.\n", input[1][0], input[1][1], *genann_run(ann, input[1]));
-    printf("Output for [%1.f, %1.f] is %1.f.\n", input[2][0], input[2][1], *genann_run(ann, input[2]));
-    printf("Output for [%1.f, %1.f] is %1.f.\n", input[3][0], input[3][1], *genann_run(ann, input[3]));
+    #define SHOW_RESULT(n) printf("Output for [%1.f, %1.f] is %1.f.\n", input[n][0], input[n][1], *genann_run(ann, input[n]));
+    SHOW_RESULT(0);
+    SHOW_RESULT(1);
+    SHOW_RESULT(2);
+    SHOW_RESULT(3);
+    #undef SHOW_RESULT
 
     genann_free(ann);
     return 0;

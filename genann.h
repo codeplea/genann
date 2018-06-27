@@ -39,9 +39,25 @@ extern "C" {
 #define GENANN_RANDOM() (((double)rand())/RAND_MAX)
 #endif
 
+/*size of genann_act_sigmoid_cached, the example2 finish instantly with 8192 (the default is 4096)*/
+#define LOOKUP_SIZE 8192
+
+#define REAL_AS_FLOAT
+
+#ifdef REAL_AS_FLOAT
+  typedef float real_t;
+  #define REAL_T_FMT " %e"
+  #define REAL_T_WRITE_FMT " %.10e"
+  #define REAL_T_LITERAL(n) n##f
+#else
+  typedef double real_t;
+  #define REAL_T_FMT " %le"
+  #define REAL_T_WRITE_FMT " %.20e"
+  #define REAL_T_LITERAL(n) n
+#endif
 struct genann;
 
-typedef double (*genann_actfun)(const struct genann *ann, double a);
+typedef real_t (*genann_actfun)(const struct genann *ann, real_t a);
 
 typedef struct genann {
     /* How many inputs, outputs, and hidden neurons. */
@@ -60,13 +76,13 @@ typedef struct genann {
     int total_neurons;
 
     /* All weights (total_weights long). */
-    double *weight;
+    real_t *weight;
 
     /* Stores input array and output of each neuron (total_neurons long). */
-    double *output;
+    real_t *output;
 
     /* Stores delta of each hidden and output neuron (total_neurons - inputs long). */
-    double *delta;
+    real_t *delta;
 
 } genann;
 
@@ -86,19 +102,19 @@ genann *genann_copy(genann const *ann);
 void genann_free(genann *ann);
 
 /* Runs the feedforward algorithm to calculate the ann's output. */
-double const *genann_run(genann const *ann, double const *inputs);
+real_t const *genann_run(genann const *ann, real_t const *inputs);
 
 /* Does a single backprop update. */
-void genann_train(genann const *ann, double const *inputs, double const *desired_outputs, double learning_rate);
+void genann_train(genann const *ann, real_t const *inputs, real_t const *desired_outputs, real_t learning_rate);
 
 /* Saves the ann. */
 void genann_write(genann const *ann, FILE *out);
 
 void genann_init_sigmoid_lookup(const genann *ann);
-double genann_act_sigmoid(const genann *ann, double a);
-double genann_act_sigmoid_cached(const genann *ann, double a);
-double genann_act_threshold(const genann *ann, double a);
-double genann_act_linear(const genann *ann, double a);
+real_t genann_act_sigmoid(const genann *ann, real_t a);
+real_t genann_act_sigmoid_cached(const genann *ann, real_t a);
+real_t genann_act_threshold(const genann *ann, real_t a);
+real_t genann_act_linear(const genann *ann, real_t a);
 
 
 #ifdef __cplusplus
