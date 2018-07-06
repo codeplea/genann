@@ -1,7 +1,7 @@
 /*
  * GENANN - Minimal C Artificial Neural Network
  *
- * Copyright (c) 2015, 2016 Lewis Van Winkle
+ * Copyright (c) 2015-2018 Lewis Van Winkle
  *
  * http://CodePlea.com
  *
