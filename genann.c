@@ -84,7 +84,6 @@ double inline genann_act_sigmoid_cached(const genann *ann __unused, double a) {
     size_t j = (size_t)((a-sigmoid_dom_min)*interval+0.5);
 
     /* Because floating point... */
-    if (unlikely(j < 0)) return lookup[0];
     if (unlikely(j >= LOOKUP_SIZE)) return lookup[LOOKUP_SIZE - 1];
 
     return lookup[j];
