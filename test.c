@@ -203,7 +203,7 @@ void persist() {
 
     FILE *in = fopen("persist.txt", "r");
     genann *second = genann_read(in);
-    fclose(out);
+    fclose(in);
 
     lequal(first->inputs, second->inputs);
     lequal(first->hidden_layers, second->hidden_layers);
