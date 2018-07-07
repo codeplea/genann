@@ -24,8 +24,8 @@
  */
 
 
-#ifndef __GENANN_H__
-#define __GENANN_H__
+#ifndef GENANN_H__
+#define GENANN_H__
 
 #include <stdio.h>
 
@@ -105,4 +105,4 @@ double genann_act_linear(const genann *ann, double a);
 }
 #endif
 
-#endif /*__GENANN_H__*/
+#endif /*GENANN_H__*/
