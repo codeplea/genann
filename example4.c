@@ -109,6 +109,8 @@ int main(int argc, char *argv[])
 
 
     genann_free(ann);
+    free(input);
+    free(class);
 
     return 0;
 }
