@@ -55,9 +55,17 @@ const double sigmoid_dom_max = 15.0;
 double interval;
 double lookup[LOOKUP_SIZE];
 
+#ifdef __GNUC__
 #define likely(x)       __builtin_expect(!!(x), 1)
 #define unlikely(x)     __builtin_expect(!!(x), 0)
-#define unused        __attribute__((unused))
+#define unused          __attribute__((unused))
+#else
+#define likely(x)       x
+#define unlikely(x)     x
+#define unused
+#pragma warning(disable : 4996) /* For fscanf */
+#endif
+
 
 double inline genann_act_sigmoid(const genann *ann unused, double a) {
     if (a < -45.0) return 0;
