@@ -1,0 +1,10 @@
+project(genann)
+
+add_executable(example1 genann.c example1.c)
+target_link_libraries(example1 m)
+add_executable(example2 genann.c example2.c)
+target_link_libraries(example2 m)
+add_executable(example3 genann.c example3.c)
+target_link_libraries(example3 m)
+add_executable(example4 genann.c example4.c)
+target_link_libraries(example4 m)

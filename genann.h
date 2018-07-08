@@ -39,6 +39,10 @@ extern "C" {
 #define GENANN_RANDOM() (((double)rand())/RAND_MAX)
 #endif
 
+#define likely(x)       __builtin_expect(!!(x), 1)
+#define unlikely(x)     __builtin_expect(!!(x), 0)
+#define GENANN_UNUSED        __attribute__((unused))
+
 struct genann;
 
 typedef double (*genann_actfun)(const struct genann *ann, double a);

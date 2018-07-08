@@ -55,11 +55,7 @@ const double sigmoid_dom_max = 15.0;
 double interval;
 double lookup[LOOKUP_SIZE];
 
-#define likely(x)       __builtin_expect(!!(x), 1)
-#define unlikely(x)     __builtin_expect(!!(x), 0)
-#define __unused        __attribute__((unused))
-
-double inline genann_act_sigmoid(const genann *ann __unused, double a) {
+double inline genann_act_sigmoid(const genann *ann GENANN_UNUSED, double a) {
     if (a < -45.0) return 0;
     if (a > 45.0) return 1;
     return 1.0 / (1 + exp(-a));
@@ -75,7 +71,7 @@ void genann_init_sigmoid_lookup(const genann *ann) {
         }
 }
 
-double inline genann_act_sigmoid_cached(const genann *ann __unused, double a) {
+double inline genann_act_sigmoid_cached(const genann *ann GENANN_UNUSED, double a) {
     assert(!isnan(a));
 
     if (a < sigmoid_dom_min) return lookup[0];
@@ -89,11 +85,11 @@ double inline genann_act_sigmoid_cached(const genann *ann __unused, double a) {
     return lookup[j];
 }
 
-double inline genann_act_linear(const struct genann *ann __unused, double a) {
+double inline genann_act_linear(const struct genann *ann GENANN_UNUSED, double a) {
     return a;
 }
 
-double inline genann_act_threshold(const struct genann *ann __unused, double a) {
+double inline genann_act_threshold(const struct genann *ann GENANN_UNUSED, double a) {
     return a > 0;
 }
 
