@@ -44,8 +44,8 @@ extern "C" {
 #define unlikely(x)     __builtin_expect(!!(x), 0)
 #define GENANN_UNUSED   __attribute__((unused))
 #elif defined(_WIN32)
-#define likely(x)       1
-#define unlikely(x)     0
+#define likely(x)       (x)
+#define unlikely(x)     !(x)
 #define GENANN_UNUSED   
 #endif
 struct genann;
