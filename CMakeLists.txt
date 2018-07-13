@@ -6,6 +6,7 @@ IF(CMAKE_HOST_UNIX)
 SET(M m)
 ELSE()
 SET(M "")
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 ENDIF()
 
 add_executable(genann_test genann.c genann_test.c)
