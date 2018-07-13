@@ -25,6 +25,26 @@ functions and little extra.
 
 Genann is self-contained in two files: `genann.c` and `genann.h`. To use Genann, simply add those two files to your project.
 
+A [`CMakeLists.txt`](CMakeLists.txt) file is also provided.
+
+To build:
+```Shell 
+mkdir build 
+cd build 
+cmake -DWITH_EXAMPLES=ON .. 
+make
+```
+
+To test:
+```Shell
+make test
+``` 
+
+To make a Debian package: 
+```Shell 
+make package 
+```
+
 ## Example Code
 
 Four example programs are included with the source code.
