@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <math.h>
 #include "genann.h"
 
@@ -7,6 +8,8 @@ int main(int argc, char *argv[])
 {
     printf("GENANN example 2.\n");
     printf("Train a small ANN to the XOR function using random search.\n");
+
+    srand(time(0));
 
     /* Input and expected out data for the XOR function. */
     const double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
@@ -27,6 +30,7 @@ int main(int argc, char *argv[])
         if (count % 1000 == 0) {
             /* We're stuck, start over. */
             genann_randomize(ann);
+            last_err = 1000;
         }
 
         genann *save = genann_copy(ann);

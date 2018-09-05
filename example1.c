@@ -1,10 +1,16 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "genann.h"
 
 int main(int argc, char *argv[])
 {
     printf("GENANN example 1.\n");
     printf("Train a small ANN to the XOR function using backpropagation.\n");
+
+    /* This will make the neural network initialize differently each run. */
+    /* If you don't get a good result, try again for a different result. */
+    srand(time(0));
 
     /* Input and expected out data for the XOR function. */
     const double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};

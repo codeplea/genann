@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <string.h>
 #include <math.h>
 #include "genann.h"
@@ -73,6 +74,8 @@ int main(int argc, char *argv[])
 {
     printf("GENANN example 4.\n");
     printf("Train an ANN on the IRIS dataset using backpropagation.\n");
+
+    srand(time(0));
 
     /* Load the data from file. */
     load_data();
