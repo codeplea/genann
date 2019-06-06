@@ -23,7 +23,67 @@ functions and little extra.
 
 ## Building
 
-Genann is self-contained in two files: `genann.c` and `genann.h`. To use Genann, simply add those two files to your project.
+Genann is self-contained in two files: `genann.c` and `genann.h`. To use Genann, you can simply add those two files to your project. It's written in standard C, so it's completely self-contained by default.
+
+Genann can also use the canonical GNU Autotools buildsystem if you want to generate a shared library that you can install. For the default build, simply build it like any other project.
+
+```bash
+./configure
+make
+make install
+```
+
+Installing Genann will do two things. First, it will create a copy of the newly built library into your library directory. This is located at `/usr/local/lib` by default, and can be configured using `--prefix=/usr` as usual, or with whatever prefix you choose to use. Second, `genann.h` will be copied to your include directory, which by default is `/usr/local/include`, but can also be configured via the same `--prefix=PREFIX` option.
+
+If you run `./configure --help`, you'll get a pretty good idea of the configuration options available. The original version exposed three `make` targets: `make linear`, `make sigmoid`, and `make threshold`, and those have been deprecated in lieu of configuration options. You can use these three by setting the `ACTIVATION_FUNCTION` variable when configuring the library, and you have the same choice between `SIGMOID`, `LINEAR`, and `THRESHOLD`.
+
+## Example Configuration
+
+```bash
+./configuration --with-gmp --with-mpfr CC=gcc CFLAGS="-O3 -mtune=intel -march=skylake"
+```
+
+Note that the `--with-gmp` and `--with-mpfr` options, while they are functional in terms of the configuration and build system, the functionality needs to be added to the code itself, and for the moment are more proof of concept than anything else.
+
+Running the above configuration should yield something like this, provided you have the requisite libraries installed, of course.
+
+```bash
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for main in -lm... yes
+checking for main in -lgmp... yes
+checking for main in -lmpfr... yes
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating include/config.h
+```
+
+To build the library, simply run `make`.
+
+```bash
+gcc -O3 -mtune=intel -march=skylake -fPIC  -DHAVE_CONFIG_H  -I include -c -o genann.o src/genann.c
+gcc -O3 -mtune=intel -march=skylake -fPIC -shared -o libgenann.so genann.o  -lm -lgmp -lmpfr 
+```
+
+ > <strong>Note:</strong> Remember that while the buildsystem <em>is</em> searching for, finding, and linking both GMP and MPFR, this functionality is experimental and for the moment only to demonstrate the extensibility of the build system. <em>Using these libraries at the moment yields absolutely no added functionality</em>.
+
+Once `make` is finished (it shouldn't take long, it's only compiling one object file), there are several `make` targets at your disposal. <strong>Running `make check` is probably a really swell idea.</strong> Changing the activation function during the configuration can mess with the results, and at the moment it looks like it results in failing quite a few of the test cases. For this reason, it behooves you to to build the tests to make sure everything is working as expected.
+
+If you would like to build the examples, simply run `make examples`. There are four of them, located in the `examples` directory, and this target will build them all in the project directory.
+
+To remove build artifacts you can run `make clean`, `make clean-tests`, `make clean-examples`, or `make distclean`. The first will remove all object files and `persist.txt`, the second and third are self-explanatory, and the last will remove the configuration cache, `include/config.h`, `config.status`, and `config.log`. It will also run `make clean`, `make clean-tests`, and `make clean-examples` as well, so be sure you really want to delete everything before you do that.
+
+If you do run `make distclean`, you'll have to re-run `./configure` to re-generate `include/config.h`.
+
+## Installing
+
+If you chose to build the library and you followed the building instructions above, simply run `make install` as root. Should you choose to uninstall the library, simply run `make uninstall` from the build directory, and the `genann.h` header and `libgenann.so` library will be promptly deleted, sent right back to the ether from whence they were came.
 
 ## Example Code
 

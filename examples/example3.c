@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "genann.h"
 
-const char *save_name = "example/xor.ann";
+const char *save_name = "examples/xor.ann";
 
 int main(int argc, char *argv[])
 {

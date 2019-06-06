@@ -9,7 +9,7 @@
  * It is NOT an example of good machine learning techniques.
  */
 
-const char *iris_data = "example/iris.data";
+const char *iris_data = "examples/iris.data";
 
 double *input, *class;
 int samples;
@@ -17,9 +17,11 @@ const char *class_names[] = {"Iris-setosa", "Iris-versicolor", "Iris-virginica"}
 
 void load_data() {
     /* Load the iris data-set. */
-    FILE *in = fopen("example/iris.data", "r");
+    FILE *in = fopen("examples/iris.data", "r");
+    
     if (!in) {
-        printf("Could not open file: %s\n", iris_data);
+        fprintf(stderr, "Could not open file: %s\n", iris_data);
+        
         exit(1);
     }
 
