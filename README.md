@@ -212,3 +212,22 @@ I recommend the [FANN library](http://leenissen.dk/fann/wp/). Another
 good library is Peter van Rossum's [Lightweight Neural
 Network](http://lwneuralnet.sourceforge.net/), which despite its name, is
 heavier and has more features than Genann.
+
+# Development
+
+Should you choose to mess around with the build system, here are some tips from the man, the myth, the legend himself, on how the build system works. It's essentially just vanilla autotools, but if you haven't dabbled with it, it can feel like drinking documentation through a firehose.
+
+Listen here, young grasshopper: if you edit `configure.ac`, you must re-run `autoconf`. After the first time you run `autoconf` proper, you can probably get by with simply running `autoreconf`, which runs a trimmed down version of `autoconf`, since you don't have to set everything everytime. That's what the cache is for, after all.
+
+If you add additional libraries, required headers, or really anything that requires `config.h` to be up to speed, you have to re-run `autoheader ./configure.ac`. This parses the configuration file and adds any options to `config.h.in` that are then filled in when you actually run `./configure`. If this is confusing, welcome to the party.
+
+This is what a header-involving modification requires:
+
+```bash
+autoheader ./configure.ac
+autoconf
+./configure
+make
+```
+
+I also recommend running `make distclean` before re-running the configuration setup, since you can get pretty weird meta-build errors every once in a while.
