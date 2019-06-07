@@ -401,5 +401,3 @@ void genann_write(genann const *ann, FILE *out) {
         fprintf(out, " %.20e", ann->weight[i]);
     }
 }
-
-

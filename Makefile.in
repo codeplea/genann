@@ -9,13 +9,13 @@ vpath %.c tests
 vpath %.c examples
 vpath %.h include
 
-PREFIX   = /usr/local
-LIBDIR   = ${exec_prefix}/lib
-ROOTDAT  = ${prefix}/share
-INCDIR   = ${prefix}/include
-OLDINCDIR= /usr/include
+PREFIX   = @prefix@
+LIBDIR   = @libdir@
+ROOTDAT  = @datarootdir@
+INCDIR   = @includedir@
+OLDINCDIR= @oldincludedir@
 
-ACTIVFN  = 
+ACTIVFN  = @ACTIVATION_FUNCTION@
 
 # If $(ACTIVFN) is not empy, check to see which of the activation functions
 # the user configured. Only set the variable if there is an exact match to 
@@ -34,17 +34,17 @@ ifneq ($(strip $(ACTIVFN)), " ")
     endif
 endif
 
-CC       = gcc
-CFLAGS   = -g -O2
-CPPFLAGS = 
-LDFLAGS  = 
+CC       = @CC@
+CFLAGS   = @CFLAGS@
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS  = @LDFLAGS@
 
 COMPILER = $(CC)
 COMPFLAGS= $(CFLAGS) -fPIC
-PREPFLAGS= $(CPPFLAGS) -DHAVE_CONFIG_H $(ACTFNFLAG) -I include
-LINKFLAGS= $(LDFLAGS) -lm   
+PREPFLAGS= $(CPPFLAGS) @DEFS@ $(ACTFNFLAG) -I include
+LINKFLAGS= $(LDFLAGS) @LIBMATH@ @LIBGMP@ @LIBMPFR@ @LIBS@
 
-TARNAME  = genann
+TARNAME  = @PROGRAM_NAME@
 TARGET   = lib$(TARNAME).so
 
 all: $(TARGET)
