@@ -67,7 +67,7 @@ double lookup[LOOKUP_SIZE];
 #endif
 
 
-double inline genann_act_sigmoid(const genann *ann unused, double a) {
+double genann_act_sigmoid(const genann *ann unused, double a) {
     if (a < -45.0) return 0;
     if (a > 45.0) return 1;
     return 1.0 / (1 + exp(-a));
@@ -83,7 +83,7 @@ void genann_init_sigmoid_lookup(const genann *ann) {
         }
 }
 
-double inline genann_act_sigmoid_cached(const genann *ann unused, double a) {
+double genann_act_sigmoid_cached(const genann *ann unused, double a) {
     assert(!isnan(a));
 
     if (a < sigmoid_dom_min) return lookup[0];
@@ -97,11 +97,11 @@ double inline genann_act_sigmoid_cached(const genann *ann unused, double a) {
     return lookup[j];
 }
 
-double inline genann_act_linear(const struct genann *ann unused, double a) {
+double genann_act_linear(const struct genann *ann unused, double a) {
     return a;
 }
 
-double inline genann_act_threshold(const struct genann *ann unused, double a) {
+double genann_act_threshold(const struct genann *ann unused, double a) {
     return a > 0;
 }
 
