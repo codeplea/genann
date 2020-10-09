@@ -11,7 +11,7 @@ functions and little extra.
 
 ## Features
 
-- **ANSI C with no dependencies**.
+- **C99 with no dependencies**.
 - Contained in a single source code and header file.
 - Simple.
 - Fast and thread-safe.
