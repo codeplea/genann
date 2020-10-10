@@ -105,7 +105,7 @@ backpropogation.
 
 A primary design goal of Genann was to store all the network weights in one
 contigious block of memory. This makes it easy and efficient to train the
-network weights using direct-search numeric optimizion algorthims,
+network weights using direct-search numeric optimization algorthims,
 such as [Hill Climbing](https://en.wikipedia.org/wiki/Hill_climbing),
 [the Genetic Algorithm](https://en.wikipedia.org/wiki/Genetic_algorithm), [Simulated
 Annealing](https://en.wikipedia.org/wiki/Simulated_annealing), etc.
