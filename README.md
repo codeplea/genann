@@ -2,6 +2,10 @@
 
 <img alt="Genann logo" src="https://codeplea.com/public/content/genann_logo.png" align="right" />
 
+# This is not the original software.
+
+It has been forked and altered.
+
 # Genann
 
 Genann is a minimal, well-tested library for training and using feedforward
