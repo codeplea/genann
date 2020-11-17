@@ -29,13 +29,19 @@
 
 #include <stdio.h>
 
+/* Uses the C functions so Cpp doesn't mangle
+ * https://stackoverflow.com/questions/1041866/\
+ * what-is-the-effect-of-extern-c-in-c
+ */
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #ifndef GENANN_RANDOM
 /* We use the following for uniform random numbers between 0 and 1.
- * If you have a better function, redefine this macro. */
+ * If you have a better function, redefine this macro. 
+ * This function generates a num between 0 (?) and RAND_MAX
+ */
 #define GENANN_RANDOM() (((double)rand())/RAND_MAX)
 #endif
 
