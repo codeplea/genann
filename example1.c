@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     genann *ann = genann_init(2, 1, 2, 1);
 
     /* Train on the four labeled data points many times. */
-    for (i = 0; i < 300; ++i) {
+    for (i = 0; i < 500; ++i) {
         genann_train(ann, input[0], output + 0, 3);
         genann_train(ann, input[1], output + 1, 3);
         genann_train(ann, input[2], output + 2, 3);
