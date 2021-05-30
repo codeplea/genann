@@ -79,6 +79,9 @@ genann *genann_read(FILE *in);
 /* Sets weights randomly. Called by init. */
 void genann_randomize(genann *ann);
 
+/* Modifies the weights randomly, with max as a threshold */
+void genann_random_tweak(genann *ann, double max);
+
 /* Returns a new copy of ann. */
 genann *genann_copy(genann const *ann);
 

@@ -201,6 +201,15 @@ void genann_randomize(genann *ann) {
     }
 }
 
+void genann_random_tweak(genann *ann, double max) {
+    int i;
+    for (i = 0; i < ann->total_weights; ++i) {
+        /* -max <= r <= max */
+        double r = (GENANN_RANDOM() - 0.5) * 2 * max;
+        ann->weight[i] += r;
+    }
+}
+
 
 void genann_free(genann *ann) {
     /* The weight, output, and delta pointers go to the same buffer. */
