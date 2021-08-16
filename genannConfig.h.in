@@ -1,0 +1,9 @@
+#ifndef GENANN_CONFIG_H
+#define GENANN_CONFIG_H
+
+/* the configured options and settings for genann */
+#define GENANN_VERSION_MAJOR @genann_VERSION_MAJOR@
+#define GENANN_VERSION_MINOR @genann_VERSION_MINOR@
+#define GENANN_VERSION_PATCH @genann_VERSION_PATCH@
+
+#endif /* GENANN_CONFIG_H */

@@ -11,11 +11,11 @@ functions and little extra.
 
 ## Features
 
-- **C99 with no dependencies**.
+- **C89 with no dependencies**.
 - Contained in a single source code and header file.
 - Simple.
 - Fast and thread-safe.
-- Easily extendible.
+- Easily extendable.
 - Implements backpropagation training.
 - *Compatible with alternative training methods* (classic optimization, genetic algorithms, etc)
 - Includes examples and test suite.
