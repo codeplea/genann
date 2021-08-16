@@ -18,13 +18,15 @@ const char *class_names[] = {"Iris-setosa", "Iris-versicolor", "Iris-virginica"}
 void load_data() {
     /* Load the iris data-set. */
     FILE *in = fopen("example/iris.data", "r");
+    int i, j;
+
+    char line[1024];
     if (!in) {
         printf("Could not open file: %s\n", iris_data);
         exit(1);
     }
 
     /* Loop through the data to get a count. */
-    char line[1024];
     while (!feof(in) && fgets(line, 1024, in)) {
         ++samples;
     }
@@ -37,7 +39,6 @@ void load_data() {
     class = malloc(sizeof(double) * samples * 3);
 
     /* Read the file into our arrays. */
-    int i, j;
     for (i = 0; i < samples; ++i) {
         double *p = input + i * 4;
         double *c = class + i * 3;
@@ -48,19 +49,21 @@ void load_data() {
             exit(1);
         }
 
-        char *split = strtok(line, ",");
-        for (j = 0; j < 4; ++j) {
-            p[j] = atof(split);
-            split = strtok(0, ",");
-        }
+        {
+            char *split = strtok(line, ",");
+            for (j = 0; j < 4; ++j) {
+                p[j] = atof(split);
+                split = strtok(0, ",");
+            }
 
-        split[strlen(split)-1] = 0;
-        if (strcmp(split, class_names[0]) == 0) {c[0] = 1.0;}
-        else if (strcmp(split, class_names[1]) == 0) {c[1] = 1.0;}
-        else if (strcmp(split, class_names[2]) == 0) {c[2] = 1.0;}
-        else {
-            printf("Unknown class %s.\n", split);
-            exit(1);
+            split[strlen(split) - 1] = 0;
+            if (strcmp(split, class_names[0]) == 0) { c[0] = 1.0; }
+            else if (strcmp(split, class_names[1]) == 0) { c[1] = 1.0; }
+            else if (strcmp(split, class_names[2]) == 0) { c[2] = 1.0; }
+            else {
+                printf("Unknown class %s.\n", split);
+                exit(1);
+            }
         }
 
         /* printf("Data point %d is %f %f %f %f  ->   %f %f %f\n", i, p[0], p[1], p[2], p[3], c[0], c[1], c[2]); */
@@ -72,6 +75,8 @@ void load_data() {
 
 int main(int argc, char *argv[])
 {
+    genann *ann;
+
     printf("GENANN example 4.\n");
     printf("Train an ANN on the IRIS dataset using backpropagation.\n");
 
@@ -84,7 +89,7 @@ int main(int argc, char *argv[])
      * 1 hidden layer(s) of 4 neurons.
      * 3 outputs (1 per class)
      */
-    genann *ann = genann_init(4, 1, 4, 3);
+    ann = genann_init(4, 1, 4, 3);
 
     int i, j;
     int loops = 5000;

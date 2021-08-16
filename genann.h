@@ -29,6 +29,8 @@
 
 #include <stdio.h>
 
+#include "genann/genann_export.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -71,34 +73,34 @@ typedef struct genann {
 } genann;
 
 /* Creates and returns a new ann. */
-genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs);
+genann GENANN_EXPORT *genann_init(int inputs, int hidden_layers, int hidden, int outputs);
 
 /* Creates ANN from file saved with genann_write. */
-genann *genann_read(FILE *in);
+genann GENANN_EXPORT *genann_read(FILE *in);
 
 /* Sets weights randomly. Called by init. */
-void genann_randomize(genann *ann);
+void GENANN_EXPORT genann_randomize(genann *ann);
 
 /* Returns a new copy of ann. */
-genann *genann_copy(genann const *ann);
+genann GENANN_EXPORT *genann_copy(genann const *ann);
 
 /* Frees the memory used by an ann. */
-void genann_free(genann *ann);
+void GENANN_EXPORT genann_free(genann *ann);
 
 /* Runs the feedforward algorithm to calculate the ann's output. */
-double const *genann_run(genann const *ann, double const *inputs);
+double const GENANN_EXPORT *genann_run(genann const *ann, double const *inputs);
 
 /* Does a single backprop update. */
-void genann_train(genann const *ann, double const *inputs, double const *desired_outputs, double learning_rate);
+void GENANN_EXPORT genann_train(genann const *ann, double const *inputs, double const *desired_outputs, double learning_rate);
 
 /* Saves the ann. */
-void genann_write(genann const *ann, FILE *out);
+void GENANN_EXPORT genann_write(genann const *ann, FILE *out);
 
-void genann_init_sigmoid_lookup(const genann *ann);
-double genann_act_sigmoid(const genann *ann, double a);
-double genann_act_sigmoid_cached(const genann *ann, double a);
-double genann_act_threshold(const genann *ann, double a);
-double genann_act_linear(const genann *ann, double a);
+void GENANN_EXPORT genann_init_sigmoid_lookup(const genann *ann);
+double GENANN_EXPORT genann_act_sigmoid(const genann *ann, double a);
+double GENANN_EXPORT genann_act_sigmoid_cached(const genann *ann, double a);
+double GENANN_EXPORT genann_act_threshold(const genann *ann, double a);
+double GENANN_EXPORT genann_act_linear(const genann *ann, double a);
 
 
 #ifdef __cplusplus
