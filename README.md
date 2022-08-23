@@ -25,6 +25,19 @@ functions and little extra.
 
 Genann is self-contained in two files: `genann.c` and `genann.h`. To use Genann, simply add those two files to your project.
 
+## Installing genann (vcpkg)
+Alternatively, you can build and install genann using [vcpkg](https://github.com/Microsoft/vcpkg/) dependency manager:
+
+```sh or powershell
+    git clone https://github.com/Microsoft/vcpkg.git
+    cd vcpkg
+    ./bootstrap-vcpkg.sh # "./bootstrap-vcpkg.bat" for powershell
+    ./vcpkg integrate install
+    ./vcpkg install genann
+```
+
+The genann port in vcpkg is kept up to date by Microsoft team members and community contributors. If the version is out of date, please [create an issue or pull request](https://github.com/Microsoft/vcpkg) on the vcpkg repository.
+
 ## Example Code
 
 Four example programs are included with the source code.
