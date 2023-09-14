@@ -53,6 +53,11 @@ typedef struct genann {
     /* Which activation function to use for output. Default: gennann_act_sigmoid_cached*/
     genann_actfun activation_output;
 
+    /* Derivative of the activation function, expressed in terms of the function value; i.e. f'(f_inverse(y))
+     * Used for backpropagation. Default: y(1-y), corresponding to the sigmoid. */
+    genann_actfun diffexpr_activation_hidden;
+    genann_actfun diffexpr_activation_output;
+
     /* Total number of weights, and size of weights buffer. */
     int total_weights;
 
@@ -97,6 +102,7 @@ void genann_write(genann const *ann, FILE *out);
 void genann_init_sigmoid_lookup(const genann *ann);
 double genann_act_sigmoid(const genann *ann, double a);
 double genann_act_sigmoid_cached(const genann *ann, double a);
+double genann_act_diffexpr_sigmoid(const genann *ann, double y);
 double genann_act_threshold(const genann *ann, double a);
 double genann_act_linear(const genann *ann, double a);
 

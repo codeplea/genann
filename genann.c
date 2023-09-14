@@ -73,6 +73,10 @@ double genann_act_sigmoid(const genann *ann unused, double a) {
     return 1.0 / (1 + exp(-a));
 }
 
+double genann_act_diffexpr_sigmoid(const genann * ann unused, double y) {
+	return y*(1.0-y);
+}
+
 void genann_init_sigmoid_lookup(const genann *ann) {
         const double f = (sigmoid_dom_max - sigmoid_dom_min) / LOOKUP_SIZE;
         int i;
@@ -142,6 +146,9 @@ genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs) {
     ret->activation_output = genann_act_sigmoid_cached;
 
     genann_init_sigmoid_lookup(ret);
+
+    ret->diffexpr_activation_hidden = genann_act_diffexpr_sigmoid;
+    ret->diffexpr_activation_output = genann_act_diffexpr_sigmoid;
 
     return ret;
 }
@@ -296,7 +303,7 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
             }
         } else {
             for (j = 0; j < ann->outputs; ++j) {
-                *d++ = (*t - *o) * *o * (1.0 - *o);
+                *d++ = (*t - *o) * ann->diffexpr_activation_output(ann, *o);
                 ++o; ++t;
             }
         }
@@ -328,7 +335,7 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
                 delta += forward_delta * forward_weight;
             }
 
-            *d = *o * (1.0-*o) * delta;
+            *d = ann->diffexpr_activation_hidden(ann, *o) * delta;
             ++d; ++o;
         }
     }
