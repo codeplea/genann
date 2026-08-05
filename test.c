@@ -193,7 +193,6 @@ void train_xor() {
 
 
 
-#ifndef genann_act
 void train_xor_act(genann_actfun act) {
     double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
     double output[4] = {0, 1, 1, 0};
@@ -292,7 +291,6 @@ void gradient_tanh() {
 void gradient_relu() {
     gradient_act(genann_act_relu, genann_act_sigmoid);
 }
-#endif
 
 
 void persist() {
@@ -368,12 +366,10 @@ int main(int argc, char *argv[])
     lrun("train and", train_and);
     lrun("train or", train_or);
     lrun("train xor", train_xor);
-#ifndef genann_act
     lrun("train tanh", train_xor_tanh);
     lrun("train relu", train_xor_relu);
     lrun("gradient tanh", gradient_tanh);
     lrun("gradient relu", gradient_relu);
-#endif
     lrun("persist", persist);
     lrun("copy", copy);
     lrun("sigmoid", sigmoid);

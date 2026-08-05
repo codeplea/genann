@@ -33,26 +33,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef genann_act
-#define genann_act_hidden genann_act_hidden_indirect
-#define genann_act_output genann_act_output_indirect
-#else
-#define genann_act_hidden genann_act
-#define genann_act_output genann_act
-#endif
-
 #define LOOKUP_SIZE 4096
 
 /* Bounds the size calculations in genann_init so they cannot overflow. */
 #define GENANN_MAX_DIMENSION (1 << 20)
-
-double genann_act_hidden_indirect(const struct genann *ann, double a) {
-    return ann->activation_hidden(ann, a);
-}
-
-double genann_act_output_indirect(const struct genann *ann, double a) {
-    return ann->activation_output(ann, a);
-}
 
 const double sigmoid_dom_min = -15.0;
 const double sigmoid_dom_max = 15.0;
@@ -244,7 +228,7 @@ double const *genann_run(genann const *ann, double const *inputs) {
             for (k = 0; k < ann->inputs; ++k) {
                 sum += *w++ * i[k];
             }
-            *o++ = genann_act_output(ann, sum);
+            *o++ = ann->activation_output(ann, sum);
         }
 
         return ret;
@@ -256,7 +240,7 @@ double const *genann_run(genann const *ann, double const *inputs) {
         for (k = 0; k < ann->inputs; ++k) {
             sum += *w++ * i[k];
         }
-        *o++ = genann_act_hidden(ann, sum);
+        *o++ = ann->activation_hidden(ann, sum);
     }
 
     i += ann->inputs;
@@ -268,7 +252,7 @@ double const *genann_run(genann const *ann, double const *inputs) {
             for (k = 0; k < ann->hidden; ++k) {
                 sum += *w++ * i[k];
             }
-            *o++ = genann_act_hidden(ann, sum);
+            *o++ = ann->activation_hidden(ann, sum);
         }
 
         i += ann->hidden;
@@ -282,7 +266,7 @@ double const *genann_run(genann const *ann, double const *inputs) {
         for (k = 0; k < ann->hidden; ++k) {
             sum += *w++ * i[k];
         }
-        *o++ = genann_act_output(ann, sum);
+        *o++ = ann->activation_output(ann, sum);
     }
 
     /* Sanity check that we used all weights and wrote all outputs. */
@@ -318,8 +302,7 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
 
 
         /* Set output layer deltas. */
-        if (genann_act_output == genann_act_linear ||
-                ann->activation_output == genann_act_linear) {
+        if (ann->activation_output == genann_act_linear) {
             for (j = 0; j < ann->outputs; ++j) {
                 *d++ = *t++ - *o++;
             }
