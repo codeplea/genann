@@ -27,6 +27,7 @@
 
 #include <assert.h>
 #include <errno.h>
+#include <limits.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,6 +42,9 @@
 #endif
 
 #define LOOKUP_SIZE 4096
+
+/* Bounds the size calculations in genann_init so they cannot overflow. */
+#define GENANN_MAX_DIMENSION (1 << 20)
 
 double genann_act_hidden_indirect(const struct genann *ann, double a) {
     return ann->activation_hidden(ann, a);
@@ -118,13 +122,18 @@ genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs) {
     if (inputs < 1) return 0;
     if (outputs < 1) return 0;
     if (hidden_layers > 0 && hidden < 1) return 0;
+    if (inputs > GENANN_MAX_DIMENSION || hidden_layers > GENANN_MAX_DIMENSION
+            || hidden > GENANN_MAX_DIMENSION || outputs > GENANN_MAX_DIMENSION) return 0;
 
 
-    const int hidden_weights = hidden_layers ? (inputs+1) * hidden + (hidden_layers-1) * (hidden+1) * hidden : 0;
-    const int output_weights = (hidden_layers ? (hidden+1) : (inputs+1)) * outputs;
-    const int total_weights = (hidden_weights + output_weights);
+    const long long hidden_weights = hidden_layers ? (long long)(inputs+1) * hidden + (long long)(hidden_layers-1) * (hidden+1) * hidden : 0;
+    const long long output_weights = (long long)(hidden_layers ? (hidden+1) : (inputs+1)) * outputs;
+    const long long total_weights = (hidden_weights + output_weights);
 
-    const int total_neurons = (inputs + hidden * hidden_layers + outputs);
+    const long long total_neurons = ((long long)inputs + (long long)hidden * hidden_layers + outputs);
+
+    /* Reject networks too large for the int counters and buffer size below. */
+    if (total_weights > INT_MAX / 32 || total_neurons > INT_MAX / 32) return 0;
 
     /* Allocate extra size for weights, outputs, and deltas. */
     const int size = sizeof(genann) + sizeof(double) * (total_weights + total_neurons + (total_neurons - inputs));
