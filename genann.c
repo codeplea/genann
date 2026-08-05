@@ -105,6 +105,14 @@ double genann_act_threshold(const struct genann *ann unused, double a) {
     return a > 0;
 }
 
+double genann_act_tanh(const struct genann *ann unused, double a) {
+    return tanh(a);
+}
+
+double genann_act_relu(const struct genann *ann unused, double a) {
+    return a > 0 ? a : 0;
+}
+
 genann *genann_init(int inputs, int hidden_layers, int hidden, int outputs) {
     if (hidden_layers < 0) return 0;
     if (inputs < 1) return 0;
@@ -275,6 +283,17 @@ double const *genann_run(genann const *ann, double const *inputs) {
 }
 
 
+/* Derivative of an activation function, in terms of its output value.
+ * Recognizes the built-in activations; any other function is assumed to
+ * have the sigmoid's derivative. */
+static double genann_act_derivative(genann_actfun act, double y) {
+    if (act == genann_act_tanh) return 1.0 - y * y;
+    if (act == genann_act_relu) return y > 0 ? 1.0 : 0.0;
+    if (act == genann_act_linear) return 1.0;
+    return y * (1.0 - y);
+}
+
+
 void genann_train(genann const *ann, double const *inputs, double const *desired_outputs, double learning_rate) {
     /* To begin with, we must run the network forward. */
     genann_run(ann, inputs);
@@ -296,7 +315,7 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
             }
         } else {
             for (j = 0; j < ann->outputs; ++j) {
-                *d++ = (*t - *o) * *o * (1.0 - *o);
+                *d++ = (*t - *o) * genann_act_derivative(ann->activation_output, *o);
                 ++o; ++t;
             }
         }
@@ -328,7 +347,7 @@ void genann_train(genann const *ann, double const *inputs, double const *desired
                 delta += forward_delta * forward_weight;
             }
 
-            *d = *o * (1.0-*o) * delta;
+            *d = genann_act_derivative(ann->activation_hidden, *o) * delta;
             ++d; ++o;
         }
     }

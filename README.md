@@ -131,10 +131,28 @@ double const *genann_run(genann const *ann, double const *inputs);
 Call `genann_run()` on a trained ANN to run a feed-forward pass on a given set of inputs. `genann_run()`
 will provide a pointer to the array of predicted outputs (of `ann->outputs` length).
 
+### Activation Functions
+
+Genann uses a sigmoid activation by default. Each network has
+`activation_hidden` and `activation_output` members which can be set to
+`genann_act_sigmoid_cached`, `genann_act_tanh`, `genann_act_relu`,
+`genann_act_linear`, or `genann_act_threshold`:
+
+```C
+genann *ann = genann_init(2, 1, 3, 2);
+ann->activation_hidden = genann_act_relu;
+```
+
+Backpropagation training knows the derivatives of the built-in activation
+functions only. If you substitute your own function, `genann_train()` will
+assume the sigmoid derivative; other training methods (see above) work
+with any activation.
 
 ## Hints
 
 - All functions start with `genann_`.
+- The default sigmoid activation expects outputs between 0 and 1. Scale
+  inputs to roughly ±1 for best results.
 - The code is simple. Dig in and change things.
 
 ## Extra Resources

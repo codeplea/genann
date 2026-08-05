@@ -99,6 +99,8 @@ double genann_act_sigmoid(const genann *ann, double a);
 double genann_act_sigmoid_cached(const genann *ann, double a);
 double genann_act_threshold(const genann *ann, double a);
 double genann_act_linear(const genann *ann, double a);
+double genann_act_tanh(const genann *ann, double a);
+double genann_act_relu(const genann *ann, double a);
 
 
 #ifdef __cplusplus
