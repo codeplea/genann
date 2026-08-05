@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/codeplea/genann.svg?branch=master)](https://travis-ci.org/codeplea/genann)
-
 <img alt="Genann logo" src="https://codeplea.com/public/content/genann_logo.png" align="right" />
 
 # Genann
@@ -98,14 +96,14 @@ void genann_train(genann const *ann, double const *inputs,
         double const *desired_outputs, double learning_rate);
 ```
 
-`genann_train()` will preform one update using standard backpropogation. It
+`genann_train()` will perform one update using standard backpropagation. It
 should be called by passing in an array of inputs, an array of expected outputs,
 and a learning rate. See *example1.c* for an example of learning with
-backpropogation.
+backpropagation.
 
 A primary design goal of Genann was to store all the network weights in one
-contigious block of memory. This makes it easy and efficient to train the
-network weights using direct-search numeric optimization algorthims,
+contiguous block of memory. This makes it easy and efficient to train the
+network weights using direct-search numeric optimization algorithms,
 such as [Hill Climbing](https://en.wikipedia.org/wiki/Hill_climbing),
 [the Genetic Algorithm](https://en.wikipedia.org/wiki/Genetic_algorithm), [Simulated
 Annealing](https://en.wikipedia.org/wiki/Simulated_annealing), etc.
