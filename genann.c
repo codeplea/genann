@@ -167,6 +167,7 @@ genann *genann_read(FILE *in) {
     }
 
     genann *ann = genann_init(inputs, hidden_layers, hidden, outputs);
+    if (!ann) return NULL;
 
     int i;
     for (i = 0; i < ann->total_weights; ++i) {
