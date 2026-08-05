@@ -193,6 +193,108 @@ void train_xor() {
 
 
 
+#ifndef genann_act
+void train_xor_act(genann_actfun act) {
+    double input[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+    double output[4] = {0, 1, 1, 0};
+
+    int i, j, r;
+    int solved = 0;
+
+    /* An unlucky starting position can strand training (e.g. dead relu
+     * units), so allow a few restarts. */
+    for (r = 0; r < 10 && !solved; ++r) {
+        genann *ann = genann_init(2, 1, 4, 1);
+        ann->activation_hidden = act;
+
+        for (i = 0; i < 2000; ++i) {
+            for (j = 0; j < 4; ++j) {
+                genann_train(ann, input[j], output + j, .5);
+            }
+        }
+
+        solved = 1;
+        for (j = 0; j < 4; ++j) {
+            if ((*genann_run(ann, input[j]) > .5) != (output[j] > .5)) solved = 0;
+        }
+
+        genann_free(ann);
+    }
+
+    lok(solved);
+}
+
+
+void train_xor_tanh() {
+    train_xor_act(genann_act_tanh);
+}
+
+
+void train_xor_relu() {
+    train_xor_act(genann_act_relu);
+}
+
+
+void gradient_act(genann_actfun hidden, genann_actfun output) {
+    double input[2] = {.3, -.2};
+    double target[1] = {.7};
+    const double eps = 1e-6;
+    const double rate = .1;
+    double checked = 0;
+    int i;
+
+    genann *ann = genann_init(2, 1, 3, 1);
+    ann->activation_hidden = hidden;
+    ann->activation_output = output;
+
+    /* Fixed, varied weights keep this test deterministic. */
+    for (i = 0; i < ann->total_weights; ++i) {
+        ann->weight[i] = sin(i * 1.7) * .5;
+    }
+
+    genann *trained = genann_copy(ann);
+    genann_train(trained, input, target, rate);
+
+    /* Each weight update must match the central-difference gradient of
+     * the squared error E = (target - out)^2 / 2. */
+    for (i = 0; i < ann->total_weights; ++i) {
+        const double save = ann->weight[i];
+        double o, e1, e2, numeric;
+
+        ann->weight[i] = save + eps;
+        o = *genann_run(ann, input);
+        e1 = .5 * (target[0] - o) * (target[0] - o);
+
+        ann->weight[i] = save - eps;
+        o = *genann_run(ann, input);
+        e2 = .5 * (target[0] - o) * (target[0] - o);
+
+        ann->weight[i] = save;
+        numeric = (e1 - e2) / (2 * eps);
+        checked += fabs(numeric);
+
+        lok(fabs((trained->weight[i] - save) - (-rate * numeric)) < 1e-7);
+    }
+
+    /* Guard against passing trivially with an all-zero gradient. */
+    lok(checked > .001);
+
+    genann_free(ann);
+    genann_free(trained);
+}
+
+
+void gradient_tanh() {
+    gradient_act(genann_act_tanh, genann_act_tanh);
+}
+
+
+void gradient_relu() {
+    gradient_act(genann_act_relu, genann_act_sigmoid);
+}
+#endif
+
+
 void persist() {
     genann *first = genann_init(1000, 5, 50, 10);
 
@@ -266,6 +368,12 @@ int main(int argc, char *argv[])
     lrun("train and", train_and);
     lrun("train or", train_or);
     lrun("train xor", train_xor);
+#ifndef genann_act
+    lrun("train tanh", train_xor_tanh);
+    lrun("train relu", train_xor_relu);
+    lrun("gradient tanh", gradient_tanh);
+    lrun("gradient relu", gradient_relu);
+#endif
     lrun("persist", persist);
     lrun("copy", copy);
     lrun("sigmoid", sigmoid);
