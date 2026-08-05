@@ -1,0 +1,52 @@
+A core strength of Genann is that it is small and simple. This makes it easy
+to add new features. However, if we keep adding new features, it'll no longer
+be small or simple. In other words, each new feature corrodes away at the core
+strength of Genann.
+
+For that reason, feature requests will generally be closed. This isn't a
+judgment on the idea. Genann is essentially finished, and it is small enough
+that if you need it to do something else, you can fork it and make it do that.
+
+Bugs are a different matter. Bug reports and bug fixes are always welcome and
+appreciated.
+
+
+OPEN AN ISSUE FIRST
+
+Please open an issue before you start work on a pull request. Go to
+https://github.com/codeplea/genann and describe what you're proposing, and
+we'll discuss it there. A pull request that shows up with no prior discussion
+will usually be closed, however good the code is. I'd rather tell you no
+before you spend your evening on it than after.
+
+
+BUG REPORTS
+
+Every bug report must include a minimal but complete example that reproduces
+the problem. That means C code, like this:
+
+    #include "genann.h"
+    #include <stdio.h>
+
+    int main(void)
+    {
+        genann *ann = genann_init(2, 1, 3, 2);
+        double input[2] = {0.0, 1.0};
+        double const *output = genann_run(ann, input);
+        printf("output %f\n", output[0]);
+        /* prints nan, expected a number between 0 and 1 */
+        genann_free(ann);
+        return 0;
+    }
+
+Minimal means you've cut everything that isn't needed to show the bug.
+Complete means I can compile and run it exactly as written, against an
+unmodified Genann, with nothing left out. Say what you expected and what you
+got instead.
+
+Do not send fuzzer harnesses, sanitizer wrappers, binary crash files, driver
+scripts, or hex dumps of some input format only your tooling understands. I
+don't care about your fuzzer or how you found the bug. I only care about the
+bug itself. If reproducing your report means reconstructing your test setup
+first, it will be closed. Reducing a crash to plain C is the reporter's job,
+not mine.
