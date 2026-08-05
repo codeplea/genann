@@ -1,3 +1,5 @@
+[![CI](https://github.com/codeplea/genann/actions/workflows/ci.yml/badge.svg)](https://github.com/codeplea/genann/actions/workflows/ci.yml)
+
 <img alt="Genann logo" src="https://codeplea.com/public/content/genann_logo.png" align="right" />
 
 # Genann
