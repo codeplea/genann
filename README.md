@@ -3,6 +3,7 @@
 # Genann
 
 [![CI](https://github.com/codeplea/genann/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/codeplea/genann/actions/workflows/ci.yml)
+[![DOI](https://zenodo.org/badge/51344685.svg)](https://doi.org/10.5281/zenodo.21816910)
 
 Genann is a minimal, well-tested library for training and using feedforward
 artificial neural networks (ANN) in C. Its primary focus is on being simple,

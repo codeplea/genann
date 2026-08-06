@@ -5,6 +5,7 @@ authors:
   - family-names: "Van Winkle"
     given-names: "Lewis"
 license: Zlib
+doi: 10.5281/zenodo.21816910
 repository-code: "https://github.com/codeplea/genann"
 url: "https://codeplea.com/genann"
 keywords:
