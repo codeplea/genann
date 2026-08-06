@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Genann: simple neural network library in ANSI C"
+authors:
+  - family-names: "Van Winkle"
+    given-names: "Lewis"
+license: Zlib
+repository-code: "https://github.com/codeplea/genann"
+url: "https://codeplea.com/genann"
+keywords:
+  - neural-network
+  - ann
+  - backpropagation
+  - feedforward-neural-network
+  - c
+version: 1.1.0
+date-released: 2026-08-06
