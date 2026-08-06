@@ -38,10 +38,10 @@
 /* Bounds the size calculations in genann_init so they cannot overflow. */
 #define GENANN_MAX_DIMENSION (1 << 20)
 
-const double sigmoid_dom_min = -15.0;
-const double sigmoid_dom_max = 15.0;
-double interval;
-double lookup[LOOKUP_SIZE];
+static const double sigmoid_dom_min = -15.0;
+static const double sigmoid_dom_max = 15.0;
+static double interval;
+static double lookup[LOOKUP_SIZE];
 
 #ifdef __GNUC__
 #define likely(x)       __builtin_expect(!!(x), 1)
