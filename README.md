@@ -1,8 +1,8 @@
-[![CI](https://github.com/codeplea/genann/actions/workflows/ci.yml/badge.svg)](https://github.com/codeplea/genann/actions/workflows/ci.yml)
-
 <img alt="Genann logo" src="https://codeplea.com/public/content/genann_logo.png" align="right" />
 
 # Genann
+
+[![CI](https://github.com/codeplea/genann/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/codeplea/genann/actions/workflows/ci.yml)
 
 Genann is a minimal, well-tested library for training and using feedforward
 artificial neural networks (ANN) in C. Its primary focus is on being simple,
