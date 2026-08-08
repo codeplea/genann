@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "Genann: simple neural network library in ANSI C"
+title: "Genann: simple neural network library in C99"
 authors:
   - family-names: "Van Winkle"
     given-names: "Lewis"
